@@ -18,7 +18,7 @@ function whmcs2pushover_config() {
 
 
 function whmcs2pushover_activate() {
-  $query = "CREATE TABLE IF NOT EXISTS `tblpushover_whmcs` (
+  $query = "CREATE TABLE IF NOT EXISTS `mod_whmcs2pushover` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `adminid` int(11) NOT NULL,
     `access_token` varchar(255) NOT NULL,
@@ -29,26 +29,26 @@ function whmcs2pushover_activate() {
 }
 
 function whmcs2pushover_deactivate() {
-  $query = "DROP TABLE `tblpushover_whmcs`";
+  $query = "DROP TABLE `mod_whmcs2pushover`";
 	$result = mysql_query($query);
 }
 
 function whmcs2pushover_output($vars) {
 	if(isset($_POST) && !empty($_POST['access_token']))
 	{
-		$user_push = select_query('tblpushover_whmcs', '', array('adminid' => $_SESSION['adminid']));
+		$user_push = select_query('mod_whmcs2pushover', '', array('adminid' => $_SESSION['adminid']));
 		if(mysql_num_rows($user_push) > 0)
 		{
-			update_query('tblpushover_whmcs',array('permissions' => serialize($_POST['permissions']), 'access_token' => $_POST['access_token']), array('adminid' => $_SESSION['adminid']));
+			update_query('mod_whmcs2pushover',array('permissions' => serialize($_POST['permissions']), 'access_token' => $_POST['access_token']), array('adminid' => $_SESSION['adminid']));
 		}
 		else
 		{
-			insert_query("tblpushover_whmcs", array("adminid" => $_SESSION['adminid'], "access_token" => $_POST['access_token'], 'permissions' => serialize($_POST['permissions'])) );
+			insert_query("mod_whmcs2pushover", array("adminid" => $_SESSION['adminid'], "access_token" => $_POST['access_token'], 'permissions' => serialize($_POST['permissions'])) );
 		}
 	}
 	else
 	{
-		$data = select_query('tblpushover_whmcs', '', array('adminid' => $_SESSION['adminid']));
+		$data = select_query('mod_whmcs2pushover', '', array('adminid' => $_SESSION['adminid']));
 		$data = mysql_fetch_array($data, MYSQL_ASSOC);
 		$data['permissions'] = unserialize($data['permissions']);
 	}

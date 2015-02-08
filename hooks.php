@@ -7,7 +7,7 @@ function getToken()
 
 function getUsersToPermission($permission)
 {
-	return full_query("SELECT `access_token` FROM `tblpushover_whmcs` WHERE `permissions` LIKE '%". $permission ."%'");
+	return full_query("SELECT `access_token` FROM `mod_whmcs2pushover` WHERE `permissions` LIKE '%". $permission ."%'");
 }
 
 function push_ClientAdd($vars) {
@@ -88,7 +88,7 @@ function widget_push_whmcs($vars) {
 
     $title = "Send a Push";
 
-    $rs = full_query("SELECT `tbladmins`.`username` as `user`, `tblpushover_whmcs`.`access_token` as `token`  FROM `tblpushover_whmcs`, `tbladmins` WHERE `tbladmins`.`id` = `tblpushover_whmcs`.`adminid`");
+    $rs = full_query("SELECT `tbladmins`.`username` as `user`, `mod_whmcs2pushover`.`access_token` as `token`  FROM `mod_whmcs2pushover`, `tbladmins` WHERE `tbladmins`.`id` = `mod_whmcs2pushover`.`adminid`");
     $content = '
     <script>
     function widgetsendpush()
